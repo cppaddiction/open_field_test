@@ -2,7 +2,6 @@ import cv2
 
 cap = cv2.VideoCapture('vid.avi')
 backSub = cv2.createBackgroundSubtractorMOG2()
-
 fourcc = cv2.VideoWriter_fourcc(*'aviv')
 
 fps = cap.get(cv2.CAP_PROP_FPS)

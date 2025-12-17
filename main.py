@@ -14,7 +14,7 @@ print(fps, width, height)
 out = cv2.VideoWriter('output_video.mp4', fourcc, fps, (width, height))
 
 while cap.isOpened():
-  # Capture frame-by-frame
+    # Capture video frame-by-frame
     ret, frame = cap.read()
     if ret:
         # Apply background subtraction
@@ -23,20 +23,20 @@ while cap.isOpened():
         # Find contours
         contours, hierarchy = cv2.findContours(fg_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-        # print(contours)
+        # Draw contours
         frame_ct = cv2.drawContours(frame, contours, -1, (0, 255, 0), 2)
 
-        # apply global threshold to remove shadows
+        # Apply global threshold to remove shadows
         retval, mask_thresh = cv2.threshold(fg_mask, 180, 255, cv2.THRESH_BINARY)
 
-        # set the kernel
+        # Set the kernel
         kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (3, 3))
 
         # Apply erosion
         mask_eroded = cv2.morphologyEx(mask_thresh, cv2.MORPH_OPEN, kernel)
 
         min_contour_area = 500  # Define your minimum area threshold
-        large_contours = [cnt for cnt in contours if cv2.contourArea(cnt) > min_contour_area]
+        large_contours = [cnt for cnt in contours if cv2.contourArea(cnt) > min_contour_area]  # Filter contours
 
         frame_out = frame.copy()
         for cnt in large_contours:

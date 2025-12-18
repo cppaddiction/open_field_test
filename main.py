@@ -15,6 +15,7 @@ out = cv2.VideoWriter('output_video.mp4', fourcc, fps, (width, height))
 while cap.isOpened():
     # Capture video frame-by-frame
     ret, frame = cap.read()
+    frame_out = frame.copy()
     if ret:
         # Apply background subtraction
         fg_mask = backSub.apply(frame)
@@ -37,9 +38,8 @@ while cap.isOpened():
         min_contour_area = 500  # Define your minimum area threshold
         large_contours = [cnt for cnt in contours if cv2.contourArea(cnt) > min_contour_area]  # Filter contours
 
-        frame_out = frame.copy()
         for cnt in large_contours:
             x, y, w, h = cv2.boundingRect(cnt)
-            frame_out = cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 0, 200), 3)
+            frame_out = cv2.rectangle(frame_out, (x, y), (x + w, y + h), (0, 0, 200), 3)
 
         out.write(frame_out)
